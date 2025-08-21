@@ -64,7 +64,7 @@
                     <div class="ml-10 flex items-baseline space-x-8">
                         <a href="#home" class="nav-link text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-300 font-medium">Home</a>
                         <a href="#about" class="nav-link text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-300 font-medium">About</a>
-                        <a href="#projects" class="nav-link text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-300 font-medium">Projects</a>
+                        <a href="projects.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-300 font-medium">Projects</a>
                         <a href="#experience" class="nav-link text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-300 font-medium">Experience</a>
                         <a href="#contact" class="nav-link text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-300 font-medium">Contact</a>
                     </div>
@@ -96,7 +96,7 @@
             <div class="px-2 pt-2 pb-3 space-y-1">
                 <a href="#home" class="mobile-nav-link block px-3 py-2 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-300 font-medium">Home</a>
                 <a href="#about" class="mobile-nav-link block px-3 py-2 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-300 font-medium">About</a>
-                <a href="#projects" class="mobile-nav-link block px-3 py-2 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-300 font-medium">Projects</a>
+                <a href="projects.html" class="mobile-nav-link block px-3 py-2 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-300 font-medium">Projects</a>
                 <a href="#experience" class="mobile-nav-link block px-3 py-2 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-300 font-medium">Experience</a>
                 <a href="#contact" class="mobile-nav-link block px-3 py-2 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-300 font-medium">Contact</a>
             </div>
@@ -149,7 +149,7 @@
                         </svg>
                         <span>LinkedIn</span>
                     </a>
-                    <a href="#projects" class="btn-primary">
+                    <a href="projects.html" class="btn-primary">
                         View Projects
                     </a>
                 </div>
@@ -272,21 +272,33 @@
         </div>
     </section>
 
-    <!-- Projects Section -->
-    <section id="projects" class="section-padding bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+    <!-- Projects Preview Section -->
+    <section class="section-padding bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
         <div class="max-w-6xl mx-auto">
             <div class="text-center mb-16">
                 <h2 class="text-4xl sm:text-5xl font-bold text-gray-900 dark:text-white mb-4 animate-on-scroll">
-                    Featured Projects
+                    Latest Projects
                 </h2>
                 <div class="w-24 h-1 bg-gradient-to-r from-blue-600 to-cyan-600 mx-auto animate-on-scroll"></div>
                 <p class="text-lg text-gray-600 dark:text-gray-400 mt-6 animate-on-scroll">
-                    Here are some of my recent works that showcase my skills and experience
+                    A selection of my recent work in data engineering, machine learning, and software development
                 </p>
             </div>
             
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8" id="projectsContainer">
-                <!-- Project cards will be loaded here by JavaScript -->
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8" id="projectsPreview">
+                <!-- Top 3 projects will be loaded here -->
+            </div>
+            
+            <div class="text-center mt-12 animate-on-scroll">
+                <a href="projects.html" class="inline-flex items-center px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium text-lg transition-colors duration-300 transform hover:scale-105">
+                    <span>View All Projects</span>
+                    <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+                    </svg>
+                </a>
+                <p class="text-sm text-gray-600 dark:text-gray-400 mt-4">
+                    <span id="projectCount">15+</span> projects and growing
+                </p>
             </div>
         </div>
     </section>

@@ -233,8 +233,8 @@ document.addEventListener('DOMContentLoaded', function() {
         // Scroll handlers go here
     }));
 
-    // Load and display projects
-    loadProjects();
+    // Load and display project preview
+    loadProjectsPreview();
 
     // Contact form handling
     const contactForm = document.getElementById('contactForm');
@@ -248,29 +248,32 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log('🚀 Orione.uk website loaded successfully!');
 });
 
-// Load projects from JSON file
-async function loadProjects() {
+// Load projects preview for homepage (top 3 projects)
+async function loadProjectsPreview() {
     try {
         const response = await fetch('./projects.json');
         const data = await response.json();
-        displayProjects(data.projects);
+        const topProjects = data.projects.slice(0, 3);
+        displayProjectsPreview(topProjects);
+        
+        // Update project count
+        const projectCountElement = document.getElementById('projectCount');
+        if (projectCountElement) {
+            projectCountElement.textContent = `${data.totalProjects}+`;
+        }
     } catch (error) {
-        console.error('Error loading projects:', error);
+        console.error('Error loading projects preview:', error);
         // Fallback to hardcoded projects if JSON fails
-        displayFallbackProjects();
+        displayFallbackProjectsPreview();
     }
 }
 
-// Display projects in the projects section
-function displayProjects(projects) {
-    const projectsContainer = document.getElementById('projectsContainer');
+// Display project preview on homepage
+function displayProjectsPreview(projects) {
+    const projectsContainer = document.getElementById('projectsPreview');
     if (!projectsContainer) return;
 
-    // Filter featured projects first, then show all
-    const featuredProjects = projects.filter(project => project.featured);
-    const projectsToShow = featuredProjects.length >= 3 ? featuredProjects.slice(0, 3) : projects.slice(0, 6);
-
-    projectsContainer.innerHTML = projectsToShow.map(project => `
+    projectsContainer.innerHTML = projects.map(project => `
         <div class="project-card bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 animate-on-scroll">
             <div class="project-image-placeholder bg-gradient-to-br from-blue-500 to-cyan-500 h-48 flex items-center justify-center text-white text-lg font-medium">
                 ${project.title}
@@ -327,42 +330,33 @@ function displayProjects(projects) {
     }, 500);
 }
 
-// Fallback projects if JSON loading fails
-function displayFallbackProjects() {
+// Fallback projects preview if JSON loading fails
+function displayFallbackProjectsPreview() {
     const fallbackProjects = [
         {
-            id: 1,
-            title: "Resume Screener API",
-            description: "AI-powered resume screening system using FastAPI and machine learning to automatically evaluate and rank candidate resumes.",
-            technologies: ["Python", "FastAPI", "ML", "NLP"],
-            category: "AI/ML",
-            githubUrl: "https://github.com/miqdad-dev/resume-screener",
-            liveUrl: "#",
-            year: 2024
+            title: "Spark ML Projects",
+            description: "Apache Spark ML projects – from feature extraction to model pipelines using structured streaming",
+            tech: ["Jupyter Notebook", "Machine Learning"],
+            github: "https://github.com/miqdad-dev/spark-ml-projects",
+            demo: null
         },
         {
-            id: 2,
-            title: "ETL Data Pipeline",
-            description: "Scalable ETL platform for processing large datasets with automated validation and transformation capabilities.",
-            technologies: ["Python", "Airflow", "Docker", "PostgreSQL"],
-            category: "Data Engineering",
-            githubUrl: "https://github.com/miqdad-dev/etl-platform",
-            liveUrl: "#",
-            year: 2024
+            title: "ETL Dashboard For Tech Jobs",
+            description: "Python project with Python and ETL",
+            tech: ["Python", "ETL", "Dashboard"],
+            github: "https://github.com/miqdad-dev/ETL-dashboard-for-tech-jobs",
+            demo: null
         },
         {
-            id: 3,
-            title: "Analytics Dashboard",
-            description: "Interactive real-time dashboard for data visualization with live streaming and custom chart capabilities.",
-            technologies: ["React", "D3.js", "Node.js", "MongoDB"],
-            category: "Web Development",
-            githubUrl: "https://github.com/miqdad-dev/analytics-dashboard",
-            liveUrl: "#",
-            year: 2023
+            title: "Bank MarketCap ETL",
+            description: "Bank Market Capitalization ETL Project",
+            tech: ["Python", "REST API", "ETL"],
+            github: "https://github.com/miqdad-dev/Bank-MarketCap-ETL",
+            demo: null
         }
     ];
     
-    displayProjects(fallbackProjects);
+    displayProjectsPreview(fallbackProjects);
 }
 
 // Contact form submission handler

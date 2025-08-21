@@ -1,0 +1,126 @@
+name: 🔄 Auto-Sync Portfolio Projects
+
+on:
+  # Run daily at 8 AM UTC
+  schedule:
+    - cron: '0 8 * * *'
+  
+  # Allow manual trigger
+  workflow_dispatch:
+    inputs:
+      force_update:
+        description: 'Force update even if no changes detected'
+        required: false
+        default: 'false'
+        type: boolean
+
+  # Run when sync script is updated
+  push:
+    paths:
+      - 'sync-projects.js'
+      - '.github/workflows/sync-projects.yml'
+
+jobs:
+  sync-projects:
+    name: 🚀 Sync GitHub Projects
+    runs-on: ubuntu-latest
+    
+    permissions:
+      contents: write  # Required to push changes
+    
+    steps:
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+      
+      - name: 🔍 Check for sync script
+        run: |
+          if [ ! -f "sync-projects.js" ]; then
+            echo "❌ sync-projects.js not found"
+            exit 1
+          fi
+          echo "✅ Sync script found"
+      
+      - name: 🌐 Fetch Latest Project Data
+        run: |
+          echo "🔄 Syncing projects from GitHub API..."
+          node sync-projects.js
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: 📊 Check for Changes
+        id: changes
+        run: |
+          if git diff --quiet projects.json; then
+            echo "No changes detected in projects.json"
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+          else
+            echo "Changes detected in projects.json"
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+            
+            # Get project count for commit message
+            PROJECT_COUNT=$(node -e "console.log(require('./projects.json').totalProjects)" 2>/dev/null || echo "unknown")
+            echo "project_count=$PROJECT_COUNT" >> $GITHUB_OUTPUT
+            
+            # Show changes
+            echo "📋 Changes detected:"
+            git diff --stat projects.json
+          fi
+      
+      - name: 📝 Commit Changes
+        if: steps.changes.outputs.has_changes == 'true' || github.event.inputs.force_update == 'true'
+        run: |
+          # Configure git
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          
+          # Add changes
+          git add projects.json
+          
+          # Create commit message
+          TIMESTAMP=$(date -u '+%Y-%m-%d %H:%M:%S UTC')
+          PROJECT_COUNT="${{ steps.changes.outputs.project_count }}"
+          
+          git commit -m "🔄 Auto-sync: Update projects from GitHub API
+
+- Updated projects.json with latest repository data
+- Total projects: $PROJECT_COUNT
+- Last synced: $TIMESTAMP
+- Triggered by: ${{ github.event_name }}
+
+🤖 Automated update via GitHub Actions"
+          
+          echo "✅ Changes committed successfully"
+      
+      - name: 🚀 Push Changes
+        if: steps.changes.outputs.has_changes == 'true' || github.event.inputs.force_update == 'true'
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref }}
+      
+      - name: 📈 Summary
+        run: |
+          if [ "${{ steps.changes.outputs.has_changes }}" == "true" ]; then
+            echo "## 🎉 Portfolio Updated Successfully!" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "### 📊 Statistics:" >> $GITHUB_STEP_SUMMARY
+            echo "- **Total Projects**: ${{ steps.changes.outputs.project_count }}" >> $GITHUB_STEP_SUMMARY
+            echo "- **Last Updated**: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> $GITHUB_STEP_SUMMARY
+            echo "- **Trigger**: ${{ github.event_name }}" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "### 🌐 Links:" >> $GITHUB_STEP_SUMMARY
+            echo "- [Portfolio Website](https://miqdad-dev.github.io/Portfolio/)" >> $GITHUB_STEP_SUMMARY
+            echo "- [Projects Page](https://miqdad-dev.github.io/Portfolio/projects.html)" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "## ℹ️ No Updates Needed" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "Portfolio is already up to date with the latest project data." >> $GITHUB_STEP_SUMMARY
+          fi

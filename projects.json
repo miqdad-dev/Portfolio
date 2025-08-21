@@ -1,76 +1,261 @@
 {
+  "lastUpdated": "2025-08-21T12:06:10.522Z",
+  "totalProjects": 15,
   "projects": [
     {
-      "id": 1,
-      "title": "Resume Screener API",
-      "description": "AI-powered resume screening system using FastAPI and machine learning to automatically evaluate and rank candidate resumes based on job requirements.",
-      "technologies": ["Python", "FastAPI", "Machine Learning", "NLP", "PostgreSQL"],
-      "category": "AI/ML",
-      "image": "./assets/images/project-resume-screener.jpg",
-      "githubUrl": "https://github.com/miqdad-dev/resume-screener",
-      "liveUrl": "https://resume-screener.orione.uk",
-      "featured": true,
-      "year": 2024
+      "id": 1033921678,
+      "title": "Spark Ml Projects",
+      "description": "Apache Spark ML projects – from feature extraction to model pipelines using structured streaming",
+      "tech": [
+        "Jupyter Notebook",
+        "Machine Learning"
+      ],
+      "github": "https://github.com/miqdad-dev/spark-ml-projects",
+      "demo": null,
+      "language": "Jupyter Notebook",
+      "stars": 0,
+      "topics": [],
+      "created": "2025-08-07T14:54:27Z",
+      "updated": "2025-08-07T15:08:33Z",
+      "featured": false
     },
     {
-      "id": 2,
-      "title": "ETL Data Pipeline Platform",
-      "description": "Scalable ETL platform for processing large datasets with automated data validation, transformation, and loading capabilities. Supports multiple data sources and formats.",
-      "technologies": ["Python", "Apache Airflow", "Docker", "PostgreSQL", "Redis"],
-      "category": "Data Engineering",
-      "image": "./assets/images/project-etl-platform.jpg",
-      "githubUrl": "https://github.com/miqdad-dev/etl-platform",
-      "liveUrl": "https://etl-demo.orione.uk",
-      "featured": true,
-      "year": 2024
+      "id": 1020315513,
+      "title": "SwiftAuto Dashboard",
+      "description": "Software project with Dashboard",
+      "tech": [
+        "Dashboard"
+      ],
+      "github": "https://github.com/miqdad-dev/SwiftAuto-Dashboard",
+      "demo": null,
+      "language": null,
+      "stars": 0,
+      "topics": [],
+      "created": "2025-07-15T17:12:27Z",
+      "updated": "2025-07-15T17:22:13Z",
+      "featured": false
     },
     {
-      "id": 3,
-      "title": "Real-time Analytics Dashboard",
-      "description": "Interactive web dashboard for real-time data visualization and analytics. Features live data streaming, custom charts, and automated reporting capabilities.",
-      "technologies": ["React", "D3.js", "Node.js", "WebSocket", "MongoDB"],
-      "category": "Web Development",
-      "image": "./assets/images/project-analytics-dashboard.jpg",
-      "githubUrl": "https://github.com/miqdad-dev/analytics-dashboard",
-      "liveUrl": "https://analytics.orione.uk",
-      "featured": true,
-      "year": 2023
+      "id": 1003729045,
+      "title": "Student Tracker App",
+      "description": "Python project with Python",
+      "tech": [
+        "Python"
+      ],
+      "github": "https://github.com/miqdad-dev/student-tracker-app",
+      "demo": null,
+      "language": "Python",
+      "stars": 0,
+      "topics": [],
+      "created": "2025-06-17T15:20:09Z",
+      "updated": "2025-06-17T15:28:05Z",
+      "featured": false
     },
     {
-      "id": 4,
-      "title": "Smart Inventory Management",
-      "description": "Predictive inventory management system using machine learning to forecast demand and optimize stock levels. Reduces waste and improves efficiency.",
-      "technologies": ["Python", "Scikit-learn", "Flask", "MySQL", "Chart.js"],
-      "category": "AI/ML",
-      "image": "./assets/images/project-inventory.jpg",
-      "githubUrl": "https://github.com/miqdad-dev/smart-inventory",
-      "liveUrl": "https://inventory.orione.uk",
-      "featured": false,
-      "year": 2023
+      "id": 997878402,
+      "title": "ETL Dashboard For Tech Jobs",
+      "description": "Python project with Python and ETL",
+      "tech": [
+        "Python",
+        "ETL",
+        "Dashboard"
+      ],
+      "github": "https://github.com/miqdad-dev/ETL-dashboard-for-tech-jobs",
+      "demo": null,
+      "language": "Python",
+      "stars": 0,
+      "topics": [],
+      "created": "2025-06-07T11:41:30Z",
+      "updated": "2025-06-07T14:41:21Z",
+      "featured": false
     },
     {
-      "id": 5,
-      "title": "Social Media Sentiment Analyzer",
-      "description": "NLP-powered tool for analyzing sentiment trends across social media platforms. Provides insights for brand monitoring and market research.",
-      "technologies": ["Python", "NLTK", "Twitter API", "Streamlit", "AWS"],
-      "category": "AI/ML",
-      "image": "./assets/images/project-sentiment.jpg",
-      "githubUrl": "https://github.com/miqdad-dev/sentiment-analyzer",
-      "liveUrl": "https://sentiment.orione.uk",
-      "featured": false,
-      "year": 2023
+      "id": 989186707,
+      "title": "Data Engineering Field Guide",
+      "description": "Python project with Python and Data Science",
+      "tech": [
+        "Python",
+        "Data Science"
+      ],
+      "github": "https://github.com/miqdad-dev/data-engineering-field-guide",
+      "demo": null,
+      "language": "Python",
+      "stars": 0,
+      "topics": [],
+      "created": "2025-05-23T17:40:08Z",
+      "updated": "2025-06-07T11:11:08Z",
+      "featured": false
     },
     {
-      "id": 6,
-      "title": "Automated Report Generator",
-      "description": "Automated business reporting system that generates custom reports from multiple data sources. Features scheduling, email delivery, and template customization.",
-      "technologies": ["Python", "Pandas", "Jinja2", "Celery", "PostgreSQL"],
-      "category": "Automation",
-      "image": "./assets/images/project-reports.jpg",
-      "githubUrl": "https://github.com/miqdad-dev/report-generator",
-      "liveUrl": "https://reports.orione.uk",
-      "featured": false,
-      "year": 2022
+      "id": 996703759,
+      "title": "Fruit API Data ETL",
+      "description": "Python project with Python and REST API",
+      "tech": [
+        "Python",
+        "REST API",
+        "ETL",
+        "Data Science"
+      ],
+      "github": "https://github.com/miqdad-dev/Fruit-API-Data-ETL",
+      "demo": null,
+      "language": "Python",
+      "stars": 0,
+      "topics": [],
+      "created": "2025-06-05T10:37:22Z",
+      "updated": "2025-06-05T10:49:31Z",
+      "featured": false
+    },
+    {
+      "id": 996699816,
+      "title": "Top50MoviesProject",
+      "description": "Top 50 Movies Scraper & Analyzer",
+      "tech": [
+        "Python",
+        "Web Scraping"
+      ],
+      "github": "https://github.com/miqdad-dev/Top50MoviesProject",
+      "demo": null,
+      "language": "Python",
+      "stars": 0,
+      "topics": [],
+      "created": "2025-06-05T10:29:19Z",
+      "updated": "2025-06-05T10:31:30Z",
+      "featured": false
+    },
+    {
+      "id": 996695873,
+      "title": "Imf Etl Project",
+      "description": "Python project with Python and ETL",
+      "tech": [
+        "Python",
+        "ETL"
+      ],
+      "github": "https://github.com/miqdad-dev/imf-etl-project",
+      "demo": null,
+      "language": "Python",
+      "stars": 0,
+      "topics": [],
+      "created": "2025-06-05T10:21:48Z",
+      "updated": "2025-06-05T10:25:26Z",
+      "featured": false
+    },
+    {
+      "id": 996691011,
+      "title": "Multi Source Etl Pipeline",
+      "description": "Python project with Python and ETL",
+      "tech": [
+        "Python",
+        "ETL"
+      ],
+      "github": "https://github.com/miqdad-dev/Multi-source-etl-pipeline",
+      "demo": null,
+      "language": "Python",
+      "stars": 0,
+      "topics": [],
+      "created": "2025-06-05T10:12:09Z",
+      "updated": "2025-06-05T10:17:27Z",
+      "featured": false
+    },
+    {
+      "id": 996683667,
+      "title": "Staff_Database_Project",
+      "description": "Python project with Python and Data Science",
+      "tech": [
+        "Python",
+        "Data Science"
+      ],
+      "github": "https://github.com/miqdad-dev/Staff_Database_Project",
+      "demo": null,
+      "language": "Python",
+      "stars": 0,
+      "topics": [],
+      "created": "2025-06-05T09:58:20Z",
+      "updated": "2025-06-05T10:06:38Z",
+      "featured": false
+    },
+    {
+      "id": 996678772,
+      "title": "Bank MarketCap ETL",
+      "description": "Bank Market Capitalization ETL Project",
+      "tech": [
+        "Python",
+        "REST API",
+        "ETL"
+      ],
+      "github": "https://github.com/miqdad-dev/Bank-MarketCap-ETL",
+      "demo": null,
+      "language": "Python",
+      "stars": 0,
+      "topics": [],
+      "created": "2025-06-05T09:49:17Z",
+      "updated": "2025-06-05T09:54:04Z",
+      "featured": false
+    },
+    {
+      "id": 993411248,
+      "title": "Expense Analyzer",
+      "description": "Advanced Python CLI Expense Tracker with CSV and Pandas",
+      "tech": [
+        "Python",
+        "Pandas"
+      ],
+      "github": "https://github.com/miqdad-dev/Expense-Analyzer",
+      "demo": null,
+      "language": "Python",
+      "stars": 0,
+      "topics": [],
+      "created": "2025-05-30T18:38:45Z",
+      "updated": "2025-05-31T11:31:23Z",
+      "featured": false
+    },
+    {
+      "id": 991314095,
+      "title": "Expense Tracker",
+      "description": "Track all your daily expenses",
+      "tech": [
+        "Python",
+        "Artificial Intelligence"
+      ],
+      "github": "https://github.com/miqdad-dev/Expense-Tracker",
+      "demo": null,
+      "language": "Python",
+      "stars": 0,
+      "topics": [],
+      "created": "2025-05-27T12:48:06Z",
+      "updated": "2025-05-27T12:49:25Z",
+      "featured": false
+    },
+    {
+      "id": 990053385,
+      "title": "Contact Manager",
+      "description": "Python project with Python",
+      "tech": [
+        "Python"
+      ],
+      "github": "https://github.com/miqdad-dev/Contact-Manager",
+      "demo": null,
+      "language": "Python",
+      "stars": 0,
+      "topics": [],
+      "created": "2025-05-25T12:05:46Z",
+      "updated": "2025-05-25T12:08:18Z",
+      "featured": false
+    },
+    {
+      "id": 989578518,
+      "title": "Maths Quiz App",
+      "description": "Maths quiz your way",
+      "tech": [
+        "Python"
+      ],
+      "github": "https://github.com/miqdad-dev/maths-quiz-app",
+      "demo": null,
+      "language": "Python",
+      "stars": 0,
+      "topics": [],
+      "created": "2025-05-24T11:42:43Z",
+      "updated": "2025-05-24T12:36:06Z",
+      "featured": false
     }
   ]
 }
