@@ -1,0 +1,76 @@
+{
+  "projects": [
+    {
+      "id": 1,
+      "title": "Resume Screener API",
+      "description": "AI-powered resume screening system using FastAPI and machine learning to automatically evaluate and rank candidate resumes based on job requirements.",
+      "technologies": ["Python", "FastAPI", "Machine Learning", "NLP", "PostgreSQL"],
+      "category": "AI/ML",
+      "image": "./assets/images/project-resume-screener.jpg",
+      "githubUrl": "https://github.com/miqdad-dev/resume-screener",
+      "liveUrl": "https://resume-screener.orione.uk",
+      "featured": true,
+      "year": 2024
+    },
+    {
+      "id": 2,
+      "title": "ETL Data Pipeline Platform",
+      "description": "Scalable ETL platform for processing large datasets with automated data validation, transformation, and loading capabilities. Supports multiple data sources and formats.",
+      "technologies": ["Python", "Apache Airflow", "Docker", "PostgreSQL", "Redis"],
+      "category": "Data Engineering",
+      "image": "./assets/images/project-etl-platform.jpg",
+      "githubUrl": "https://github.com/miqdad-dev/etl-platform",
+      "liveUrl": "https://etl-demo.orione.uk",
+      "featured": true,
+      "year": 2024
+    },
+    {
+      "id": 3,
+      "title": "Real-time Analytics Dashboard",
+      "description": "Interactive web dashboard for real-time data visualization and analytics. Features live data streaming, custom charts, and automated reporting capabilities.",
+      "technologies": ["React", "D3.js", "Node.js", "WebSocket", "MongoDB"],
+      "category": "Web Development",
+      "image": "./assets/images/project-analytics-dashboard.jpg",
+      "githubUrl": "https://github.com/miqdad-dev/analytics-dashboard",
+      "liveUrl": "https://analytics.orione.uk",
+      "featured": true,
+      "year": 2023
+    },
+    {
+      "id": 4,
+      "title": "Smart Inventory Management",
+      "description": "Predictive inventory management system using machine learning to forecast demand and optimize stock levels. Reduces waste and improves efficiency.",
+      "technologies": ["Python", "Scikit-learn", "Flask", "MySQL", "Chart.js"],
+      "category": "AI/ML",
+      "image": "./assets/images/project-inventory.jpg",
+      "githubUrl": "https://github.com/miqdad-dev/smart-inventory",
+      "liveUrl": "https://inventory.orione.uk",
+      "featured": false,
+      "year": 2023
+    },
+    {
+      "id": 5,
+      "title": "Social Media Sentiment Analyzer",
+      "description": "NLP-powered tool for analyzing sentiment trends across social media platforms. Provides insights for brand monitoring and market research.",
+      "technologies": ["Python", "NLTK", "Twitter API", "Streamlit", "AWS"],
+      "category": "AI/ML",
+      "image": "./assets/images/project-sentiment.jpg",
+      "githubUrl": "https://github.com/miqdad-dev/sentiment-analyzer",
+      "liveUrl": "https://sentiment.orione.uk",
+      "featured": false,
+      "year": 2023
+    },
+    {
+      "id": 6,
+      "title": "Automated Report Generator",
+      "description": "Automated business reporting system that generates custom reports from multiple data sources. Features scheduling, email delivery, and template customization.",
+      "technologies": ["Python", "Pandas", "Jinja2", "Celery", "PostgreSQL"],
+      "category": "Automation",
+      "image": "./assets/images/project-reports.jpg",
+      "githubUrl": "https://github.com/miqdad-dev/report-generator",
+      "liveUrl": "https://reports.orione.uk",
+      "featured": false,
+      "year": 2022
+    }
+  ]
+}
