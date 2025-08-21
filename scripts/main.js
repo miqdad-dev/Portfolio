@@ -268,53 +268,89 @@ async function loadProjectsPreview() {
     }
 }
 
-// Display project preview on homepage
+// Display premium project preview on homepage
 function displayProjectsPreview(projects) {
     const projectsContainer = document.getElementById('projectsPreview');
     if (!projectsContainer) return;
 
-    projectsContainer.innerHTML = projects.map(project => `
-        <div class="project-card bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 animate-on-scroll">
-            <div class="project-image-placeholder bg-gradient-to-br from-blue-500 to-cyan-500 h-48 flex items-center justify-center text-white text-lg font-medium">
-                ${project.title}
-            </div>
-            <div class="p-6">
-                <div class="flex items-center justify-between mb-3">
-                    <span class="text-sm text-blue-600 dark:text-blue-400 font-medium">${project.category}</span>
-                    <span class="text-sm text-gray-500 dark:text-gray-400">${project.year}</span>
-                </div>
-                <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-3">${project.title}</h3>
-                <p class="text-gray-600 dark:text-gray-300 mb-4 line-clamp-3">${project.description}</p>
+    projectsContainer.innerHTML = projects.map((project, index) => `
+        <div class="group relative animate-on-scroll" style="animation-delay: ${index * 0.2}s;">
+            <!-- Premium Card Container -->
+            <div class="relative bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-3 hover:scale-105 border border-gray-200/50 dark:border-gray-700/50">
                 
-                <div class="flex flex-wrap gap-2 mb-4">
-                    ${project.technologies.slice(0, 3).map(tech => `
-                        <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 text-sm rounded-full">
-                            ${tech}
-                        </span>
-                    `).join('')}
-                    ${project.technologies.length > 3 ? `
-                        <span class="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 text-sm rounded-full">
-                            +${project.technologies.length - 3} more
-                        </span>
-                    ` : ''}
+                <!-- Gradient Overlay -->
+                <div class="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-transparent to-purple-500/5 pointer-events-none"></div>
+                
+                <!-- Project Header -->
+                <div class="relative h-32 bg-gradient-to-br ${getProjectGradient(project)} flex items-center justify-center text-white overflow-hidden">
+                    <!-- Animated Pattern -->
+                    <div class="absolute inset-0 opacity-20">
+                        <div class="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width="30" height="30" viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="%23ffffff" fill-opacity="0.1"%3E%3Cpath d="M15 15m-4 0a4 4 0 1 1 8 0a4 4 0 1 1 -8 0"/%3E%3C/g%3E%3C/svg%3E')] animate-pulse"></div>
+                    </div>
+                    
+                    <!-- Content -->
+                    <div class="relative z-10 text-center group-hover:scale-110 transition-transform duration-300">
+                        <div class="text-lg font-bold mb-1">${project.title}</div>
+                        <div class="text-sm opacity-90">${project.language || 'Multi-tech'}</div>
+                    </div>
+                    
+                    <!-- Corner Decoration -->
+                    <div class="absolute top-3 right-3 w-2 h-2 bg-white/30 rounded-full animate-pulse"></div>
                 </div>
                 
-                <div class="flex space-x-3">
-                    <a href="${project.githubUrl}" target="_blank" rel="noopener noreferrer" 
-                       class="flex-1 bg-gray-900 hover:bg-gray-800 text-white px-4 py-2 rounded-lg text-center text-sm font-medium transition-colors duration-300 flex items-center justify-center space-x-2">
-                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-                        </svg>
-                        <span>GitHub</span>
-                    </a>
-                    <a href="${project.liveUrl}" target="_blank" rel="noopener noreferrer" 
-                       class="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-center text-sm font-medium transition-colors duration-300 flex items-center justify-center space-x-2">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
-                        </svg>
-                        <span>Live Demo</span>
-                    </a>
+                <!-- Premium Content -->
+                <div class="relative p-6 space-y-4">
+                    <!-- Project Title -->
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white group-hover:text-blue-600 transition-colors duration-300">
+                        ${project.title}
+                    </h3>
+                    
+                    <!-- Description -->
+                    <p class="text-gray-600 dark:text-gray-300 text-sm leading-relaxed line-clamp-3">
+                        ${project.description}
+                    </p>
+                    
+                    <!-- Tech Stack -->
+                    <div class="flex flex-wrap gap-1.5">
+                        ${(project.tech || project.technologies || []).slice(0, 3).map(tech => `
+                            <span class="px-2.5 py-1 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 text-blue-700 dark:text-blue-300 text-xs font-semibold rounded-lg border border-blue-200/50 dark:border-blue-500/20">
+                                ${tech}
+                            </span>
+                        `).join('')}
+                        ${((project.tech || project.technologies || []).length > 3) ? `
+                            <span class="px-2.5 py-1 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 text-xs font-semibold rounded-lg">
+                                +${(project.tech || project.technologies).length - 3}
+                            </span>
+                        ` : ''}
+                    </div>
+                    
+                    <!-- Action Buttons -->
+                    <div class="flex space-x-2 pt-2">
+                        <a href="${project.github || project.githubUrl}" target="_blank" rel="noopener noreferrer" 
+                           class="flex-1 group/btn bg-gradient-to-r from-gray-900 to-gray-800 hover:from-gray-800 hover:to-gray-700 text-white px-3 py-2.5 rounded-xl text-xs font-semibold transition-all duration-300 flex items-center justify-center space-x-1.5 shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
+                            <svg class="w-3.5 h-3.5 group-hover/btn:rotate-12 transition-transform duration-300" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                            </svg>
+                            <span>Code</span>
+                        </a>
+                        ${(project.demo || project.liveUrl) ? `
+                            <a href="${project.demo || project.liveUrl}" target="_blank" rel="noopener noreferrer" 
+                               class="flex-1 group/btn bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white px-3 py-2.5 rounded-xl text-xs font-semibold transition-all duration-300 flex items-center justify-center space-x-1.5 shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
+                                <svg class="w-3.5 h-3.5 group-hover/btn:translate-x-0.5 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                                </svg>
+                                <span>Demo</span>
+                            </a>
+                        ` : `
+                            <div class="flex-1 bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400 px-3 py-2.5 rounded-xl text-xs font-semibold text-center opacity-50">
+                                Soon
+                            </div>
+                        `}
+                    </div>
                 </div>
+                
+                <!-- Hover Glow Effect -->
+                <div class="absolute inset-0 rounded-2xl bg-gradient-to-r from-blue-500/10 via-purple-500/5 to-cyan-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
             </div>
         </div>
     `).join('');
@@ -357,6 +393,27 @@ function displayFallbackProjectsPreview() {
     ];
     
     displayProjectsPreview(fallbackProjects);
+}
+
+// Get project gradient based on primary tech (for homepage)
+function getProjectGradient(project) {
+    const primaryTech = project.language || (project.tech && project.tech[0]) || '';
+    
+    const gradients = {
+        'Python': 'from-blue-500 to-blue-700',
+        'JavaScript': 'from-yellow-500 to-orange-600', 
+        'TypeScript': 'from-blue-600 to-indigo-700',
+        'Jupyter Notebook': 'from-orange-400 to-yellow-500',
+        'Java': 'from-red-500 to-orange-600',
+        'C++': 'from-purple-500 to-purple-700',
+        'Go': 'from-cyan-500 to-teal-600',
+        'Ruby': 'from-red-500 to-pink-600',
+        'PHP': 'from-purple-600 to-indigo-700',
+        'Swift': 'from-orange-400 to-orange-600',
+        default: 'from-blue-500 to-purple-600'
+    };
+    
+    return gradients[primaryTech] || gradients.default;
 }
 
 // Contact form submission handler

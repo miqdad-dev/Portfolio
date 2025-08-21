@@ -35,7 +35,54 @@
             },
         }
     </script>
-    <link href="./styles/tailwind.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        
+        .line-clamp-3 {
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 3;
+        }
+        
+        .glass-effect {
+            backdrop-filter: blur(16px);
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .gradient-border {
+            background: linear-gradient(45deg, #3b82f6, #06b6d4, #8b5cf6);
+            padding: 2px;
+            border-radius: 16px;
+        }
+        
+        .gradient-border-content {
+            background: white;
+            border-radius: 14px;
+        }
+        
+        .dark .gradient-border-content {
+            background: rgb(31 41 55);
+        }
+        
+        .premium-card {
+            background: linear-gradient(145deg, rgba(255,255,255,0.9), rgba(255,255,255,0.7));
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+        
+        .dark .premium-card {
+            background: linear-gradient(145deg, rgba(31,41,55,0.9), rgba(31,41,55,0.7));
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .tech-badge {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1));
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            backdrop-filter: blur(8px);
+        }
+    </style>
     
     <!-- Open Graph Meta Tags -->
     <meta property="og:title" content="Projects - Miqdad Issa">
@@ -102,32 +149,43 @@
         </div>
     </nav>
 
-    <!-- Projects Header -->
-    <section class="pt-32 pb-16 bg-gradient-to-br from-blue-50 via-white to-cyan-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 transition-colors duration-300">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Premium Projects Header -->
+    <section class="relative pt-32 pb-20 overflow-hidden">
+        <!-- Animated Background -->
+        <div class="absolute inset-0 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-gray-900 dark:via-blue-900/20 dark:to-purple-900/20"></div>
+        <div class="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%233b82f6" fill-opacity="0.05"%3E%3Cpath d="m36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-30"></div>
+        
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center">
-                <h1 class="text-5xl sm:text-6xl lg:text-7xl font-bold leading-tight mb-6 animate-fade-in">
-                    <span class="text-gray-900 dark:text-white">My</span>
-                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-600">Projects</span>
-                </h1>
-                <p class="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto leading-relaxed animate-fade-in" style="animation-delay: 0.2s;">
-                    A showcase of my work in data engineering, machine learning, and software development. 
-                    Each project demonstrates different skills and technologies.
+                <!-- Main Title -->
+                <div class="mb-8">
+                    <h1 class="text-6xl sm:text-7xl lg:text-8xl font-black leading-none mb-4 animate-fade-in">
+                        <span class="text-gray-900 dark:text-white">My</span>
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-purple-600 to-cyan-500 animate-pulse">Projects</span>
+                    </h1>
+                    <div class="w-32 h-1.5 bg-gradient-to-r from-blue-600 via-purple-600 to-cyan-500 mx-auto rounded-full animate-fade-in" style="animation-delay: 0.2s;"></div>
+                </div>
+                
+                <!-- Subtitle -->
+                <p class="text-xl sm:text-2xl text-gray-600 dark:text-gray-300 max-w-4xl mx-auto leading-relaxed mb-12 animate-fade-in font-medium" style="animation-delay: 0.3s;">
+                    A curated collection of my work in <span class="text-blue-600 dark:text-blue-400 font-semibold">data engineering</span>, 
+                    <span class="text-purple-600 dark:text-purple-400 font-semibold">machine learning</span>, and 
+                    <span class="text-cyan-600 dark:text-cyan-400 font-semibold">software development</span>
                 </p>
                 
-                <!-- Project Stats -->
-                <div class="flex justify-center space-x-8 mt-8 animate-fade-in" style="animation-delay: 0.4s;">
-                    <div class="text-center">
-                        <div class="text-3xl font-bold text-blue-600 dark:text-blue-400" id="totalProjects">--</div>
-                        <div class="text-sm text-gray-600 dark:text-gray-400">Total Projects</div>
+                <!-- Premium Stats Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto animate-fade-in" style="animation-delay: 0.5s;">
+                    <div class="premium-card rounded-2xl p-6 text-center">
+                        <div class="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-500 mb-2" id="totalProjects">--</div>
+                        <div class="text-sm font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">Total Projects</div>
                     </div>
-                    <div class="text-center">
-                        <div class="text-3xl font-bold text-blue-600 dark:text-blue-400" id="techCount">--</div>
-                        <div class="text-sm text-gray-600 dark:text-gray-400">Technologies</div>
+                    <div class="premium-card rounded-2xl p-6 text-center">
+                        <div class="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-500 mb-2" id="techCount">--</div>
+                        <div class="text-sm font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">Technologies</div>
                     </div>
-                    <div class="text-center">
-                        <div class="text-3xl font-bold text-blue-600 dark:text-blue-400" id="lastUpdated">--</div>
-                        <div class="text-sm text-gray-600 dark:text-gray-400">Last Updated</div>
+                    <div class="premium-card rounded-2xl p-6 text-center">
+                        <div class="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-500 to-teal-500 mb-2" id="lastUpdated">--</div>
+                        <div class="text-sm font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">Last Updated</div>
                     </div>
                 </div>
             </div>
