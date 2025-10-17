@@ -1,8 +1,16 @@
 #!/usr/bin/env node
 
 /**
- * GitHub Project Sync Script
+ * GitHub Project Sync Script (fixed)
  * Automatically fetches repository data and updates projects.json
+ *
+ * Changes made:
+ * - Added optional GITHUB_TOKEN support via environment variable for higher rate limits and API access
+ * - Improved error handling for non-2xx responses
+ * - Implemented getRepositoryDetails to fetch repo info (topics, homepage, has_pages)
+ * - Updated detection functions to use repo details
+ * - Respect CONFIG.excludeForks toggle and minStars correctly
+ * - Added dry-run support
  */
 
 const https = require('https');
@@ -13,10 +21,12 @@ const CONFIG = {
     username: 'miqdad-dev',
     outputFile: 'projects.json',
     githubApiUrl: 'https://api.github.com',
-    excludeForks: true,
+    excludeForks: true, // honor this flag now
     minStars: 0, // Minimum stars to include project
     excludeRepos: ['Portfolio'], // Repos to exclude
 };
+
+const TOKEN = process.env.GITHUB_TOKEN || null;
 
 // GitHub API request helper
 function githubRequest(endpoint) {
@@ -27,14 +37,31 @@ function githubRequest(endpoint) {
             method: 'GET',
             headers: {
                 'User-Agent': 'Portfolio-Sync-Script',
-                'Accept': 'application/vnd.github.v3+json'
+                // include the topics preview so repo detail requests include topics
+                'Accept': 'application/vnd.github.mercy-preview+json, application/vnd.github.v3+json'
             }
         };
+
+        if (TOKEN) {
+            options.headers['Authorization'] = `token ${TOKEN}`;
+        }
 
         const req = https.request(options, (res) => {
             let data = '';
             res.on('data', chunk => data += chunk);
             res.on('end', () => {
+                // Handle non-2xx responses with helpful error
+                if (res.statusCode < 200 || res.statusCode >= 300) {
+                    let message = data;
+                    try {
+                        const parsed = JSON.parse(data || '{}');
+                        message = parsed.message || JSON.stringify(parsed);
+                    } catch (e) {
+                        // keep raw data
+                    }
+                    return reject(new Error(`GitHub API error ${res.statusCode} ${res.statusMessage}: ${message}`));
+                }
+
                 try {
                     resolve(JSON.parse(data));
                 } catch (error) {
@@ -117,9 +144,10 @@ function detectTechStack(repo, repoDetails = null) {
         }
     });
 
-    // Add topics as technologies
-    if (repo.topics && repo.topics.length > 0) {
-        repo.topics.forEach(topic => {
+    // Add topics as technologies (prefer repoDetails.topics if available)
+    const topics = (repoDetails && Array.isArray(repoDetails.topics)) ? repoDetails.topics : (repo.topics || []);
+    if (topics && topics.length > 0) {
+        topics.forEach(topic => {
             const formatted = topic.charAt(0).toUpperCase() + topic.slice(1);
             techStack.add(formatted);
         });
@@ -129,25 +157,30 @@ function detectTechStack(repo, repoDetails = null) {
 }
 
 // Detect demo URL from repository
-async function detectDemoUrl(repo) {
-    // Check homepage field first
+async function detectDemoUrl(repo, repoDetails = null) {
+    // Check homepage field first (repoDetails preferred)
+    if (repoDetails && repoDetails.homepage) {
+        return repoDetails.homepage;
+    }
     if (repo.homepage) {
         return repo.homepage;
     }
 
-    // Check GitHub Pages URL pattern
-    const githubPagesUrl = `https://${CONFIG.username}.github.io/${repo.name}/`;
-    
-    // For now, return null - in a full implementation, we could make HTTP requests to check if URLs are valid
+    // If repository has GitHub Pages enabled, return the expected pages URL
+    if (repoDetails && repoDetails.has_pages) {
+        return `https://${CONFIG.username}.github.io/${repo.name}/`;
+    }
+
+    // Otherwise return null
     return null;
 }
 
 // Get repository details including README for better tech detection
 async function getRepositoryDetails(repoName) {
     try {
-        // Could fetch README.md content for more detailed tech stack detection
-        // For now, return null to keep it simple
-        return null;
+        // Fetch full repo details which include topics, homepage, has_pages, etc.
+        const details = await githubRequest(`/repos/${CONFIG.username}/${repoName}`);
+        return details;
     } catch (error) {
         console.warn(`Could not fetch details for ${repoName}:`, error.message);
         return null;
@@ -158,7 +191,7 @@ async function getRepositoryDetails(repoName) {
 async function transformToProject(repo) {
     const repoDetails = await getRepositoryDetails(repo.name);
     const techStack = detectTechStack(repo, repoDetails);
-    const demoUrl = await detectDemoUrl(repo);
+    const demoUrl = await detectDemoUrl(repo, repoDetails);
 
     return {
         id: repo.id,
@@ -169,15 +202,18 @@ async function transformToProject(repo) {
         demo: demoUrl,
         language: repo.language,
         stars: repo.stargazers_count,
-        topics: repo.topics || [],
+        topics: (repoDetails && repoDetails.topics) ? repoDetails.topics : (repo.topics || []),
         created: repo.created_at,
         updated: repo.updated_at,
-        featured: repo.stargazers_count >= 1 || repo.topics.includes('featured') // Mark as featured if has stars or 'featured' topic
+        featured: (repo.stargazers_count >= 1) || ((repoDetails && Array.isArray(repoDetails.topics) && repoDetails.topics.includes('featured')) || (Array.isArray(repo.topics) && repo.topics.includes('featured')))
     };
 }
 
 // Main sync function
-async function syncProjects() {
+async function syncProjects(options = {}) {
+    const { dryRun = false, verbose = false } = options;
+    if (verbose) console.log('🔍 Running in verbose mode');
+
     console.log('🔄 Syncing projects from GitHub...');
     
     try {
@@ -191,11 +227,12 @@ async function syncProjects() {
 
         console.log(`📦 Found ${repos.length} repositories`);
 
-        // Filter repositories
+        // Filter repositories (respect CONFIG flags)
         const filteredRepos = repos.filter(repo => {
-            return !repo.fork && // Exclude forks
-                   !CONFIG.excludeRepos.includes(repo.name) && // Exclude specific repos
-                   repo.stargazers_count >= CONFIG.minStars; // Minimum stars filter
+            if (CONFIG.excludeForks && repo.fork) return false;
+            if (CONFIG.excludeRepos.includes(repo.name)) return false;
+            if (repo.stargazers_count < CONFIG.minStars) return false;
+            return true;
         });
 
         console.log(`✅ Filtered to ${filteredRepos.length} repositories`);
@@ -225,19 +262,24 @@ async function syncProjects() {
             projects: projects
         };
 
-        // Write to file
         const outputPath = path.join(process.cwd(), CONFIG.outputFile);
-        fs.writeFileSync(outputPath, JSON.stringify(projectsData, null, 2));
-        
-        console.log(`✨ Successfully updated ${CONFIG.outputFile}`);
-        console.log(`📊 Total projects: ${projects.length}`);
-        console.log(`⭐ Featured projects: ${projects.filter(p => p.featured).length}`);
-        
-        // Log project summary
-        console.log('\n📋 Projects Summary:');
-        projects.forEach(project => {
-            console.log(`  • ${project.title} (${project.tech.slice(0, 3).join(', ')}) ${project.featured ? '⭐' : ''}`);
-        });
+
+        if (dryRun) {
+            console.log('🧪 Dry run mode - no files will be written. Here is the preview:');
+            console.log(JSON.stringify(projectsData, null, 2));
+        } else {
+            // Write to file
+            fs.writeFileSync(outputPath, JSON.stringify(projectsData, null, 2));
+            console.log(`✨ Successfully updated ${CONFIG.outputFile}`);
+            console.log(`📊 Total projects: ${projects.length}`);
+            console.log(`⭐ Featured projects: ${projects.filter(p => p.featured).length}`);
+            
+            // Log project summary
+            console.log('\n📋 Projects Summary:');
+            projects.forEach(project => {
+                console.log(`  • ${project.title} (${project.tech.slice(0, 3).join(', ')}) ${project.featured ? '⭐' : ''}`);
+            });
+        }
 
     } catch (error) {
         console.error('❌ Error syncing projects:', error.message);
@@ -268,12 +310,12 @@ Examples:
         process.exit(0);
     }
 
-    if (args.includes('--dry-run')) {
-        console.log('🧪 Dry run mode - no files will be written');
-        // Add dry run logic here
-    }
+    const options = {
+        dryRun: args.includes('--dry-run'),
+        verbose: args.includes('--verbose') || args.includes('-v')
+    };
 
-    syncProjects();
+    syncProjects(options);
 }
 
 module.exports = { syncProjects, detectTechStack, transformToProject };
